@@ -49,9 +49,11 @@ function new_particle_exp(x, y, _color, _frame_max, _num_particles, bullet_dir)
 					else
 						self.xpos = self.xpos + self.xinc
 						self.ypos = self.ypos + self.yinc
-
-						pset(self.xpos, self.ypos, _color)
-						self.frame_cnt += 1
+						
+						if (self.xpos > 1 and self.xpos < 126 and self.ypos > 10 and self.ypos < 126) then
+							pset(self.xpos, self.ypos, _color)
+							self.frame_cnt += 1
+						end
 					end
 
 				end

@@ -85,7 +85,9 @@ function new_bullet(x, y, _direction)
 			self.posx = self.posx + self.xinc
 			self.posy = self.posy + self.yinc
 
-			spr(self.spr_num, self.posx, self.posy)
+			if (self.posx > 1 and self.posx < 121 and self.posy > 8 and self.posy < 121) then
+				spr(self.spr_num, self.posx, self.posy)
+			end
 		end
 	end
 	bullet.is_touching_object = function(self, obj2)
