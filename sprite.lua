@@ -77,7 +77,6 @@ function new_enemy(x, y, _width, _height, _spr_num, _explosion_num, _player)
 		if (self.posy < 10) then self.posy = 10 end
 		if (self.posy + self.height > 126) then self.posy = 126 - self.height end			
 
-		--spr(self.spr_num, self.posx, self.posy)
 		self.draw_sprite(self)
 	end
 
@@ -100,9 +99,8 @@ function new_enemy(x, y, _width, _height, _spr_num, _explosion_num, _player)
 					if (self.hit_points == 0) then
 						self.dead = true	
 						particle_explosion = new_particle_exp(self.posx + (self.width/2), self.posy + (self.height/2), self.color, self.particle_frame_max, self.num_particles, bullet.direction) 
-						add(particle_exp_array, particle_explosion)
-						--explosion = new_explosion(self.posx, self.posy, self.explosion_num)
-						--add(explosion_array, explosion)																									
+						add(particle_exp_array, particle_explosion)																							
+						uimanager.score += self.points
 					else
 						self.react_to_bullet(self, bullet.direction)
 					end

@@ -2,13 +2,13 @@ function format_number(num)
 
 	x = tostr(num)
 
-	while(#x < 15) x = '0'..x
+	while(#x < 10) x = '0'..x
 
 	return x
 
 end
 
-function new_uimanager
+function new_uimanager()
 
 	local uimanager = {
 		score = 0,
@@ -19,8 +19,7 @@ function new_uimanager
 			-- Update players remaining
 
 			-- Update score
-				print(format_number(self.score), 45, 0, 7)
-
+			print(format_number(self.score), 45, 0, 7)
 		end		
 	}
 
