@@ -36,9 +36,9 @@ function _draw()
 		bullet_array.draw(bullet_array)
 		enemy_array.draw(enemy_array)
 		explosion_array.draw(explosion_array)
-		particle_exp_array.draw(particle_exp_array)
-		uimanager.draw(uimanager)
+		particle_exp_array.draw(particle_exp_array)		
 	end
 
+	uimanager.draw(uimanager)
 	map(0, 0, 0, 0, 128, 32)
 end
