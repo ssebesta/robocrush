@@ -44,14 +44,14 @@ function is_next_to_object_y(obj1, obj2, xdir, ydir)
 		if ((obj1bottom >= obj2top) and
 			(obj1bottom <= obj2bottom) and
 			(obj1right >= obj2left) and
-			(obj2left <= obj2right)) then
+			(obj1left <= obj2right)) then
 			retval = true
 		end
 	elseif (ydir == -1) then		
 		if ((obj1top <= obj2bottom) and
 			(obj1top >= obj2top) and
 			(obj1right >= obj2left) and
-			(obj2left <= obj2right)) then
+			(obj1left <= obj2right)) then
 			retval = true
 		end
 	end
