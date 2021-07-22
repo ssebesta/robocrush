@@ -2,6 +2,8 @@ function new_sprite(x,y, _width, _height, _spr_num)
 	local sprite = {
 		posx = x,
 		posy = y,
+		orig_posx = x,
+		orig_posy = y,
 		spr_num = _spr_num,
 		width = _width,
 		height = _height,
