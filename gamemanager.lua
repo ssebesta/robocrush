@@ -5,13 +5,12 @@ function new_gamemanager()
 		enemy_array = new_array(),
 		bullet_array = new_array(),
 		explosion_array = new_array(),
-		particle_exp_array = new_array(),
-		uimanager = new_uimanager(),
-		draw = function(self)
-			
-		end,
+		particle_exp_array = new_array(),		
+		enemy_count = 0,
+		gamestate = "NEW_LEVEL",
+		curlevel = 1,
 		load_level = function(self)
-			level = split(levels[curlevel])
+			level = split(levels[self.curlevel])
 			
 			for xstring in all(level) do
 				x = split(xstring, ":")
@@ -34,25 +33,25 @@ function new_gamemanager()
 			for exp in all(self.explosion_array) do del(self.explosion_array, exp) end
 		end,
 		update = function(self)
-			if (gamestate == "NEW_LEVEL") then
-				self.load_level()
-				gamestate = "PLAYING"
-			elseif (gamestate == "PLAYER_DEAD") then
+			if (self.gamestate == "NEW_LEVEL") then
+				self.player.reset(self.player)
+				self.load_level(self)
+				self.gamestate = "PLAYING"
+			elseif (self.gamestate == "PLAYER_DEAD") then
 				self.player.dead = false
-				self.player.posx = self.player.orig_posx
-				self.player.posy = self.player.orig_posy
+				self.player.reset(self.player)
 				
-				if (self.uimanager.players > 0) then
-					self.uimanager.players -= 1
-					self.restart_after_death()
-					gamestate = "PLAYING"
+				if (uimanager.players > 0) then
+					uimanager.players -= 1
+					self.restart_after_death(self)
+					self.gamestate = "PLAYING"
 				else
-					gamestate = "GAME_OVER"
+					self.gamestate = "GAME_OVER"
 				end
 			elseif (count(self.enemy_array) == 0) then
-				gamestate = "NEW_LEVEL"
-				curlevel += 1
-			elseif (gamestate == "GAME_OVER") then		
+				self.gamestate = "NEW_LEVEL"
+				self.curlevel += 1
+			elseif (self.gamestate == "GAME_OVER") then		
 			end
 			
 			self.player.update(self.player)
@@ -65,7 +64,7 @@ function new_gamemanager()
 		draw = function(self)
 			cls(0)
 		
-			self.player.draw(player)
+			self.player.draw(self.player)
 		
 			if (not self.player.dead) then		
 				self.bullet_array.draw(self.bullet_array)
@@ -74,7 +73,7 @@ function new_gamemanager()
 				self.particle_exp_array.draw(self.particle_exp_array)		
 			end
 		
-			self.uimanager.draw(self.uimanager)
+			uimanager.draw(uimanager)
 			map(0, 0, 0, 0, 128, 32)
 		end
 	}

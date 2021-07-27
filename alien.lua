@@ -1,7 +1,3 @@
--- 7 8 9
--- 4   6
--- 1 2 3
-
 function new_alien(x,y, _player)
 
 	local alien = new_enemy(x, y, 16, 16, 16, 1, _player)

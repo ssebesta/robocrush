@@ -14,13 +14,13 @@ function new_sprite(x,y, _width, _height, _spr_num)
 end
 
 function new_enemy(x, y, _width, _height, _spr_num, _explosion_num, _player)
-	enemy_count = enemy_count + 1	
+	gamemanager.enemy_count = gamemanager.enemy_count + 1	
 
 	local enemy = new_sprite(x, y, _width, _height, _spr_num)
 
 	enemy.player = _player
 	enemy.explosion_num = _explosion_num
-	enemy.id = enemy_count
+	enemy.id = gamemanager.enemy_count
 	enemy.move_distance = 1
 	enemy.frames_per_move = 1
 	enemy.num_walking_frames = 4
@@ -93,7 +93,7 @@ function new_enemy(x, y, _width, _height, _spr_num, _explosion_num, _player)
 	end
 
 	enemy.check_for_bullets = function(self)
-		for bullet in all(bullet_array) do
+		for bullet in all(gamemanager.bullet_array) do
 			if (not self.dead and (bullet ~= nil) and (not bullet.dead)) then
 				if bullet.is_touching_object(bullet, self) then
 					self.hit_points = self.hit_points - 1
@@ -101,13 +101,13 @@ function new_enemy(x, y, _width, _height, _spr_num, _explosion_num, _player)
 					if (self.hit_points == 0) then
 						self.dead = true	
 						particle_explosion = new_particle_exp(self.posx + (self.width/2), self.posy + (self.height/2), self.color, self.particle_frame_max, self.num_particles, bullet.direction) 
-						add(particle_exp_array, particle_explosion)																							
+						add(gamemanager.particle_exp_array, particle_explosion)																							
 						uimanager.score += self.points
 					else
 						self.react_to_bullet(self, bullet.direction)
 					end
 					
-					del(bullet_array, bullet)
+					del(gamemanager.bullet_array, bullet)
 				end
 			end
 		end	
@@ -121,7 +121,7 @@ function new_enemy(x, y, _width, _height, _spr_num, _explosion_num, _player)
 		}
 
 		-- Loop through all the enemies, see if we're going to bump into them
-		for enemy in all(enemy_array) do					
+		for enemy in all(gamemanager.enemy_array) do					
 			if (self.id ~= enemy.id and not enemy.dead) then
 				if (xinc == 1 or xinc == -1) then
 					if is_next_to_object_x(self, enemy, xinc, yinc) then 						
