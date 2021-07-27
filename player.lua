@@ -39,7 +39,7 @@ function new_player(x,y)
 				spr(self.dying_spr_array[self.dying_spr_num], self.posx, self.posy)
 				
 				if (self.dead_frames_counter == 60) then
-					gamestate = "PLAYER_DEAD"
+					gamemanager.gamestate = "PLAYER_DEAD"
 					self.dead_frames_counter = 1
 				else 
 					self.dead_frames_counter += 1
@@ -77,7 +77,7 @@ function new_player(x,y)
 	
 					if (self.num_firing_frames == self.frames_per_bullet) then
 						bullet = new_bullet(self.posx, self.posy, self.aim_direction)
-						add(bullet_array, bullet)
+						add(gamemanager.bullet_array, bullet)
 						self.num_firing_frames = 1
 					else
 						self.num_firing_frames += 1
@@ -91,6 +91,10 @@ function new_player(x,y)
 		end
 	player.die = function(self)
 		self.dead = true			
+	end
+	player.reset = function(self)
+		self.posx = self.orig_posx
+		self.posy = self.orig_posy
 	end
 	
 	return player

@@ -1,7 +1,6 @@
 pico-8 cartridge // http://www.pico-8.com
 version 32
 __lua__
-#include globals.lua
 #include helpermethods.lua
 #include uimanager.lua
 #include objectarray.lua
@@ -12,6 +11,7 @@ __lua__
 #include alien.lua
 #include player.lua
 #include leveldefs.lua
+#include gamemanager.lua
 #include robocrush.lua
 
 __gfx__
