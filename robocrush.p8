@@ -11,6 +11,7 @@ __lua__
 #include alien.lua
 #include player.lua
 #include leveldefs.lua
+#include leveltransition.lua
 #include gamemanager.lua
 #include robocrush.lua
 

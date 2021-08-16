@@ -9,6 +9,9 @@ function new_gamemanager()
 		enemy_count = 0,
 		gamestate = "NEW_LEVEL",
 		curlevel = 1,
+		level_trans = new_leveltransition(),
+		transition_level = function(self)
+		end,
 		load_level = function(self)
 			level = split(levels[self.curlevel])
 			
@@ -48,9 +51,11 @@ function new_gamemanager()
 				else
 					self.gamestate = "GAME_OVER"
 				end
-			elseif (count(self.enemy_array) == 0) then
-				self.gamestate = "NEW_LEVEL"
+			elseif (count(self.enemy_array) == 0 and self.gamestate ~= "TRANSITION") then
+				self.gamestate = "TRANSITION"
 				self.curlevel += 1
+			elseif ((self.gamestate == "TRANSITION") and (self.level_trans.status == 3)) then
+				self.gamestate = "NEW_LEVEL"
 			elseif (self.gamestate == "GAME_OVER") then		
 			end
 			
@@ -62,15 +67,21 @@ function new_gamemanager()
 		
 		end,
 		draw = function(self)
-			cls(0)
-		
-			self.player.draw(self.player)
-		
-			if (not self.player.dead) then		
-				self.bullet_array.draw(self.bullet_array)
-				self.enemy_array.draw(self.enemy_array)
-				self.explosion_array.draw(self.explosion_array)
-				self.particle_exp_array.draw(self.particle_exp_array)		
+			cls(0)					
+			
+			if (self.gamestate == "TRANSITION") then
+				if (self.level_trans.status ~= 3) then					
+					self.level_trans.draw(self.level_trans)
+				end
+			else
+				self.player.draw(self.player)
+				
+				if (not self.player.dead) then		
+					self.bullet_array.draw(self.bullet_array)
+					self.enemy_array.draw(self.enemy_array)
+					self.explosion_array.draw(self.explosion_array)
+					self.particle_exp_array.draw(self.particle_exp_array)		
+				end				
 			end
 		
 			uimanager.draw(uimanager)
