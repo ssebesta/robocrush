@@ -23,6 +23,9 @@ function new_gamemanager()
 				elseif(x[1] == "alien") then
 					alien = new_alien(x[2], x[3], self.player)
 					add(self.enemy_array, alien)
+				elseif(x[1] == "tankbot") then
+					tankbot = new_tankbot(x[2], x[3], self.player)
+					add(self.enemy_array, tankbot)
 				end
 			end	
 		end,
@@ -33,7 +36,8 @@ function new_gamemanager()
 			end
 			
 			for bullet in all(self.bullet_array) do del(self.bullet_array, bullet) end
-			for exp in all(self.explosion_array) do del(self.explosion_array, exp) end
+			
+			for exp in all(self.particle_exp_array) do del(self.particle_exp_array, exp) end
 		end,
 		update = function(self)
 			if (self.gamestate == "NEW_LEVEL") then
@@ -51,7 +55,7 @@ function new_gamemanager()
 				else
 					self.gamestate = "GAME_OVER"
 				end
-			elseif (count(self.enemy_array) == 0 and self.gamestate ~= "TRANSITION") then
+			elseif (count(self.enemy_array) == 0 and count(self.particle_exp_array) == 0 and self.gamestate ~= "TRANSITION") then
 				self.gamestate = "TRANSITION"
 				self.curlevel += 1
 			elseif ((self.gamestate == "TRANSITION") and (self.level_trans.status == 3)) then
@@ -63,11 +67,11 @@ function new_gamemanager()
 		
 			cleanup_array(self.enemy_array)
 			cleanup_array(self.bullet_array)
-			cleanup_array(self.explosion_array)
+			cleanup_array(self.particle_exp_array)
 		
 		end,
 		draw = function(self)
-			cls(0)					
+			cls(0)				
 			
 			if (self.gamestate == "TRANSITION") then
 				if (self.level_trans.status ~= 3) then					
@@ -79,12 +83,14 @@ function new_gamemanager()
 				if (not self.player.dead) then		
 					self.bullet_array.draw(self.bullet_array)
 					self.enemy_array.draw(self.enemy_array)
-					self.explosion_array.draw(self.explosion_array)
+					--self.explosion_array.draw(self.explosion_array)
 					self.particle_exp_array.draw(self.particle_exp_array)		
 				end				
 			end
 		
 			uimanager.draw(uimanager)
+			--print("Explosions: "..tostr(count(self.particle_exp_array)).."  Enemies: "..tostr(count(self.enemy_array)))
+			
 			map(0, 0, 0, 0, 128, 32)
 		end
 	}
